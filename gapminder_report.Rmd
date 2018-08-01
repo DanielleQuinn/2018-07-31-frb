@@ -1,0 +1,53 @@
+---
+title: "Gapminder Report"
+author: "Danielle"
+date: "August 1, 2018"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+library(ggplot2)
+library(dplyr)
+library(Kmisc) # don't include this one
+library(gapminder)
+data(gapminder)
+```
+
+#Introduction
+
+The [gapminder data set](www.google.com) contains records of population size, life expectancy, and GDP for `r length(unique(gapminder$country))` countries between `r min(gapminder$year)` and `r max(gapminder$year)`.
+
+#My Figure
+
+```{r, echo = FALSE}
+figure1 <- gapminder %>% 
+  filter(year == 2007) %>%
+  ggplot(aes(x = continent, y = lifeExp)) +
+  geom_boxplot() +
+  geom_jitter(aes(col = gdpPercap), 
+              shape = 17, width = 0.25) +
+  scale_colour_gradient(low = "red", 
+                        high = "green",
+                        name = "GDP per Capita") +
+  xlab("Continent") + ylab("Life Expectancy") +
+  ggtitle("Life Expectancy and GDP 2007") +
+  theme_bw(18)
+figure1
+```
+
+
+```{r}
+table2 <- gapminder %>% 
+  group_by(continent) %>% 
+  summarise(mean(pop), sd(pop))
+table2
+```
+
+
+
+
+
+
+
